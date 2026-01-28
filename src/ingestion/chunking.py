@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from .pdf_loader import Document
 from typing import List
-import tiktoken
+import tiktoken, statistics
 
 ENCODING_NAME = "cl100k_base"
 
@@ -13,6 +13,15 @@ class Chunk:
     text: str
     start_token: int
     end_token: int
+
+@dataclass
+class ChunkStats:
+    avg_tokens: float
+    num_chunks: int
+    p95_tokens: float
+    num_docs: int
+    median_tokens: float
+
 
 def count_tokens(text: str) -> int:
     encoder = tiktoken.get_encoding(ENCODING_NAME)
@@ -56,6 +65,23 @@ def chunk_docs(documents: List[Document],
             chunk_index += 1
     return chunks
 
+def analytics(chunks: List[Chunk]) -> ChunkStats:
+    token_lengths = [chunk.end_token - chunk.start_token for chunk in chunks]
+    token_lengths_sorted = sorted(token_lengths)
+    n = len(token_lengths_sorted)
+    p95_index = int(0.95*(n-1))
+
+    instance = ChunkStats(
+        num_chunks=len(chunks),
+        num_docs=len({chunk.doc_id for chunk in chunks}),
+        avg_tokens=statistics.mean(token_lengths),
+        median_tokens=statistics.median(token_lengths),
+        p95_tokens=token_lengths_sorted[p95_index]
+    )
+    return instance
+
+
+
 if __name__ == "__main__":
     from .pdf_loader import load_pdfs
     docs = load_pdfs("data/raw/pdfs")
@@ -67,3 +93,13 @@ if __name__ == "__main__":
         print(f"Chunk ID: {chunk.chunk_id}")
         print(f"Tokens: {chunk.start_token}–{chunk.end_token}")
         print(chunk.text[:500])
+
+    stats = analytics(chunks)
+
+    print(
+    f"\nNumber of documents: {stats.num_docs}\n"
+    f"Number of chunks: {stats.num_chunks}\n"
+    f"Average token length: {stats.avg_tokens:.2f}\n"
+    f"Median token length: {stats.median_tokens}\n"
+    f"P95 token length: {stats.p95_tokens}\n")
+
