@@ -80,6 +80,27 @@ def analytics(chunks: List[Chunk]) -> ChunkStats:
     )
     return instance
 
+def pack_chunks(retrieved_chunks, max_tokens: int, separator: str="\n\n---\n\n"):
+    context_parts = []
+    used_tokens = 0
+    retrieved_chunks = sorted(retrieved_chunks, key=lambda x: x[1], reverse=True)
+
+    for chunk, score in retrieved_chunks:
+        chunk_text = chunk.text.strip()
+        chunk_tokens = count_tokens(chunk_text)
+        sep_tokens = count_tokens(separator) if context_parts else 0
+
+        if used_tokens + sep_tokens + chunk_tokens > max_tokens:
+            break
+
+        if context_parts:
+            context_parts.append(separator)
+            used_tokens += sep_tokens
+
+        context_parts.append(chunk_text)
+        used_tokens += chunk_tokens
+
+    return "".join(context_parts)
 
 
 if __name__ == "__main__":
