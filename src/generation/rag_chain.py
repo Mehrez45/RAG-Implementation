@@ -4,6 +4,8 @@ You must answer the question using ONLY the information in the context below.
 Do NOT use prior knowledge.
 Do NOT make assumptions.
 Do NOT invent facts.
+Do NOT repeat yourself
+Do utilise initiative
 
 If the answer is not explicitly stated in the context, respond with:
 "I don’t know based on the provided context."

@@ -17,8 +17,10 @@ class LocalLLM:
         output = self.llm(
             prompt,
             max_tokens= 512,
-            temperature=0.2,
-            stop=["</s>"]
+            temperature=0.3,
+            stop=["\n\n", "END", "</s>"],
+            repeat_penalty=1.2,
+            
         )
 
         return output["choices"][0]["text"].strip()

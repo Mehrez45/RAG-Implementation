@@ -1,7 +1,7 @@
 from src.llm.local_llm import LocalLLM
 from src.generation.rag_chain import build_rag_prompt
 from src.retrieval.embeddings import embed_query
-from src.retrieval.retriever import retrieve_faiss
+from src.retrieval.retriever import FaissRetriever
 from src.retrieval.storage import load_index
 
 
@@ -11,6 +11,7 @@ def main():
 
     llm = LocalLLM()
     index, chunks = load_index()
+    retriever = FaissRetriever(index, chunks)
 
     print("Ready.\nType quit() in order to exit")
     while True:
@@ -22,10 +23,8 @@ def main():
 
         query_vec = embed_query(question)
 
-        results = retrieve_faiss(
+        results = retriever.retrieve_faiss(
             query_vec=query_vec,
-            index=index,
-            chunks=chunks,
             k=10,
             threshold=0.35
         )
