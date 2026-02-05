@@ -1,10 +1,9 @@
 from src.llm.local_llm import LocalLLM
-from src.generation.rag_chain import build_rag_prompt
-from src.retrieval.embeddings import embed_query
 from src.retrieval.retriever import FaissRetriever
 from src.retrieval.storage import load_index
-
-
+from src.pipeline.rag_pipeline import RAGPipeline
+from src.retrieval.query_expander import QueryExpander
+from src.retrieval.query_decomposer import QueryDecomposer
 
 def main():
     print("Loading components...")
@@ -12,6 +11,12 @@ def main():
     llm = LocalLLM()
     index, chunks = load_index()
     retriever = FaissRetriever(index, chunks)
+    expander = QueryExpander(llm=llm)
+    decomposer = QueryDecomposer(llm=llm)
+
+    pipeline = RAGPipeline(
+        llm=llm, retriever=retriever,
+        expander=expander, decomposer=decomposer)
 
     print("Ready.\nType quit() in order to exit")
     while True:
@@ -21,30 +26,8 @@ def main():
         if question == "quit()":
             break
 
-        query_vec = embed_query(question)
-
-        results = retriever.retrieve_faiss(
-            query_vec=query_vec,
-            k=10,
-            threshold=0.35
-        )
-        print("\n--- RETRIEVED CHUNKS ---")
-        for chunk, score in results:
-            print(f"[score={score:.3f}] {chunk.text[:200]}")
-        print("------------------------\n")
-
-
-        if not results:
-            print("I don’t know based on the provided context.")
-            continue
-
-        contexts = [chunk.text for chunk, score in results]
-
-        prompt = build_rag_prompt(question, contexts)
-
-        answer = llm.generate(prompt)
+        answer = pipeline.run(question)
         print("\n", answer, "\n")
-
 
 
 if __name__ == "__main__":

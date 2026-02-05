@@ -5,7 +5,7 @@ class QueryExpander:
         self.llm = llm
         self.num_queries = num_queries
 
-    def rewrite(self, query: str):
+    def expand(self, query: str):
         prompt = f"""
 Generate {self.num_queries} different search queries that could retrieve relevant technical documents for the following user question.
 User question:
