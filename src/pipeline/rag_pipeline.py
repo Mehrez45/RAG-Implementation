@@ -5,6 +5,7 @@ from src.retrieval.query_expander import QueryExpander
 from typing import Optional
 from src.retrieval.embeddings import embed_query
 from src.generation.rag_chain import build_rag_prompt
+from src.ingestion.chunking import count_tokens
 
 class RAGPipeline:
     def __init__(self, llm:LocalLLM, retriever: FaissRetriever,
@@ -45,10 +46,26 @@ class RAGPipeline:
 
         seen = set()
         unique_chunks = []
-        for chunk, score in results:
+
+        for chunk, score in sorted(results, key=lambda x: x[1], reverse=True):
             if chunk.chunk_id not in seen:
                 seen.add(chunk.chunk_id)
                 unique_chunks.append(chunk)
 
-        prompt = build_rag_prompt(query, [c.text for c in unique_chunks])
+        MAX_CONTEXT_TOKENS = 2500
+        selected_chunks = []
+        token_count = 0
+
+        for chunk in unique_chunks:
+            chunk_tokens = count_tokens(chunk.text)
+
+            if token_count + chunk_tokens > MAX_CONTEXT_TOKENS:
+                break
+
+            selected_chunks.append(chunk.text)
+            token_count += chunk_tokens
+
+        print(f"RAG context: {len(selected_chunks)} chunks, {token_count} tokens")
+
+        prompt = build_rag_prompt(query, selected_chunks)
         return self.llm.generate(prompt)

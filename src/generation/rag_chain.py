@@ -1,15 +1,17 @@
 SYSTEM_PROMPT = """You are a retrieval-based assistant.
 
-You must answer the question using ONLY the information in the context below.
-Do NOT use prior knowledge.
-Do NOT make assumptions.
-Do NOT invent facts.
-Do NOT repeat yourself
-Do utilise initiative
+Use the provided context to answer the question.
+Do not use information that is not supported by the context.
+Do not speculate or invent facts.
 
-If the answer is not explicitly stated in the context, respond with:
+If the answer is NOT explicitly stated or directly supported by the context, respond EXACTLY with:
 "I don’t know based on the provided context."
+
+Answer ONCE.
+Do not repeat or restate your answer.
+Be concise and factual.
 """
+
 
 def build_rag_prompt(question: str, contexts: list[str]) -> str:
     context_block = "\n\n".join(contexts)
@@ -22,5 +24,5 @@ Context:
 Question:
 {question}
 
-Answer (concise, factual, no filler):
+Answer:
 """

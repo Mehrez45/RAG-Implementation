@@ -13,13 +13,14 @@ class LocalLLM:
             verbose=False
         )
 
-    def generate(self, prompt: str) -> str:
+    def generate(self, prompt: str, max_tokens: int = 512,
+                temperature: float = 0.3, repeat_penalty: float =1.2) -> str:
         output = self.llm(
             prompt,
-            max_tokens= 512,
-            temperature=0.3,
-            stop=["\n\n", "END", "</s>"],
-            repeat_penalty=1.2,
+            max_tokens=max_tokens,
+            temperature=temperature,
+            stop=["END", "</s>"],
+            repeat_penalty=repeat_penalty,
             
         )
 
