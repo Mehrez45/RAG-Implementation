@@ -1,4 +1,4 @@
-from llm.local_llm import LocalLLM
+from src.llm.local_llm import LocalLLM
 
 class QueryDecomposer:
     def __init__(self, llm: LocalLLM):

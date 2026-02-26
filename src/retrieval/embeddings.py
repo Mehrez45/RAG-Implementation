@@ -1,8 +1,9 @@
 from dataclasses import dataclass
-from ingestion.chunking import Chunk
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from typing import List
+
+from src.ingestion.chunking import Chunk
 
 @dataclass
 class EmbeddedChunk:
