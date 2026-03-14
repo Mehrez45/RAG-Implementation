@@ -37,8 +37,12 @@ class VanillaRunner(QueryRunner):
         self.pipeline = RAGPipeline(
             llm=runtime.llm,
             retriever=runtime.retriever,
+            candidate_k=runtime.candidate_k,
+            final_k=runtime.final_k,
+            threshold=runtime.threshold,
             expander=runtime.expander,
             decomposer=runtime.decomposer,
+            reranker=runtime.reranker,
         )
 
     def run(self, query: str) -> RunResult:
@@ -58,23 +62,41 @@ class AgenticRunner(QueryRunner):
         context_pipeline = ContextPipeline(
             llm=runtime.llm,
             retriever=runtime.retriever,
+            candidate_k=runtime.candidate_k,
+            final_k=runtime.final_k,
+            threshold=runtime.threshold,
             expander=runtime.expander,
             decomposer=runtime.decomposer,
+            reranker=runtime.reranker,
         )
-        self.graph = create_rag_graph(context_pipeline, runtime.llm)
+        self.graph = create_rag_graph(
+            context_pipeline,
+            runtime.llm,
+            max_revisions=runtime.max_revisions,
+            force_retrieval=runtime.force_retrieval,
+            reviewer_accept_score=runtime.reviewer_accept_score,
+            document_aliases=runtime.document_aliases,
+        )
 
     def run(self, query: str) -> RunResult:
         initial_state: AgentState = {
             "user_query": query,
             "extracted_facts": [],
+            "extracted_chunk_ids": [],
             "current_draft": "",
             "review_feedback": "",
             "is_relevant": False,
             "revision_count": 0,
             "failure_reason": "",
             "needs_retrieval": True,
+            "document_grounded": False,
             "route": "",
             "route_reason": "",
+            "candidate_count": 0,
+            "top_retrieval_score": None,
+            "top_rerank_score": None,
+            "reranker_applied": False,
+            "retrieval_stalled": False,
         }
 
         final_state = self.graph.invoke(initial_state)

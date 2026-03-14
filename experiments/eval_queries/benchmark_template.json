@@ -1,0 +1,34 @@
+{
+  "description": "Template for a manually labeled retrieval benchmark. Copy this file and replace the placeholder values with labels from your own indexed corpus.",
+  "queries": [
+    {
+      "id": "example_query",
+      "query": "Replace this with a real question from your corpus.",
+      "relevant_chunk_ids": [
+        "replace_with_chunk_ids_if_you_want_strict_chunk_level_metrics"
+      ],
+      "relevant_doc_ids": [
+        "replace_with_doc_ids_if_doc_level_metrics_are_enough"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "replace_with_doc_id",
+          "page_number": 0
+        }
+      ],
+      "answer_patterns": [
+        [
+          [
+            "key phrase the answer should contain",
+            "synonym or alternative wording that should also count"
+          ],
+          "second key phrase if needed"
+        ],
+        [
+          "alternative wording you also want to count as correct"
+        ]
+      ],
+      "notes": "Page-level labels are usually the best starting point because they stay stable even if chunk boundaries change. answer_patterns are evaluated as any-of groups, where every concept inside a group must appear in the final answer. A nested list means any one of those alternative phrasings is acceptable for that concept."
+    }
+  ]
+}

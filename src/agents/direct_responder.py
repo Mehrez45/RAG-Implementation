@@ -10,10 +10,20 @@ def build_direct_responder_node(llm: LocalLLM):
         query = state["user_query"]
         prompt = build_direct_prompt(query)
         answer = llm.generate(prompt)
+        is_fallback = state.get("revision_count", 0) > 0
+        route_reason = state.get("route_reason", "")
+        if is_fallback:
+            route_reason = (
+                f"{route_reason}; direct_fallback_after_retrieval"
+                if route_reason
+                else "direct_fallback_after_retrieval"
+            )
 
         return {
             "current_draft": answer,
             "failure_reason": "",
+            "route": "direct_fallback" if is_fallback else "direct",
+            "route_reason": route_reason,
         }
 
     return run_direct_responder

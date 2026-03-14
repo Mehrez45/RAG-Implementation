@@ -2,62 +2,48 @@ from src.llm.local_llm import LocalLLM
 from src.retrieval.retriever import FaissRetriever
 from src.retrieval.query_decomposer import QueryDecomposer
 from src.retrieval.query_expander import QueryExpander
+from src.retrieval.reranker import CrossEncoderReranker
 from typing import Optional
-from src.retrieval.embeddings import embed_query
 from src.generation.rag_chain import build_rag_prompt
-from src.ingestion.chunking import count_tokens
+from src.pipeline.retrieval_context import prepare_context
 
 class RAGPipeline:
     def __init__(self, llm:LocalLLM, retriever: FaissRetriever,
-                k: int = 10, threshold: float = 0.35,
+                candidate_k: int = 24, final_k: int = 6,
+                threshold: float = 0.35,
                 decomposer: Optional[QueryDecomposer] = None,
-                expander: Optional[QueryExpander] = None):
+                expander: Optional[QueryExpander] = None,
+                reranker: Optional[CrossEncoderReranker] = None):
         self.llm = llm
         self.retriever = retriever
-        self.k = k
+        self.candidate_k = candidate_k
+        self.final_k = final_k
         self.threshold = threshold
         self.decomposer = decomposer
         self.expander = expander
+        self.reranker = reranker
 
     def run(self, query: str) -> str:
-        queries = [query]
+        context = prepare_context(
+            query=query,
+            retriever=self.retriever,
+            candidate_k=self.candidate_k,
+            final_k=self.final_k,
+            threshold=self.threshold,
+            decomposer=self.decomposer,
+            expander=self.expander,
+            reranker=self.reranker,
+        )
 
-        if self.decomposer is not None:
-            queries = self.decomposer.decompose(query)
-            if not queries:
-                queries = [query]
-
-        if self.expander is not None:
-            expanded_queries = []
-            for q in queries:
-                expanded_queries.extend(self.expander.expand(q))
-            if expanded_queries:
-                queries = expanded_queries
-
-        results = []
-        for q in queries:
-            query_vec = embed_query(q)
-            result = self.retriever.retrieve_faiss(
-                query_vec, k=self.k, threshold=self.threshold)
-            results.extend(result)
-        
-        if not results:
+        if not context.chunks:
             return "I don't know based on the provided context."
-
-        seen = set()
-        unique_chunks = []
-
-        for chunk, score in sorted(results, key=lambda x: x[1], reverse=True):
-            if chunk.chunk_id not in seen:
-                seen.add(chunk.chunk_id)
-                unique_chunks.append(chunk)
 
         MAX_CONTEXT_TOKENS = 2500
         selected_chunks = []
         token_count = 0
 
-        for chunk in unique_chunks:
-            chunk_tokens = count_tokens(chunk.text)
+        for chunk in context.chunks:
+            chunk_tokens = chunk.end_token - chunk.start_token
 
             if token_count + chunk_tokens > MAX_CONTEXT_TOKENS:
                 break
@@ -65,7 +51,13 @@ class RAGPipeline:
             selected_chunks.append(chunk.text)
             token_count += chunk_tokens
 
-        print(f"RAG context: {len(selected_chunks)} chunks, {token_count} tokens")
+        print(
+            "RAG context:"
+            f" {len(selected_chunks)} chunks, {token_count} tokens"
+            f" | candidates={context.candidate_count}"
+            f" | reranker={context.reranker_status}"
+            f" | rerank_applied={context.reranker_applied}"
+        )
 
         prompt = build_rag_prompt(query, selected_chunks)
         return self.llm.generate(prompt)

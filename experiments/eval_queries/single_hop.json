@@ -1,0 +1,725 @@
+{
+  "description": "Seed single-hop benchmark built from the currently indexed PDFs, with retrieval labels and lightweight answer-pattern checks for end-to-end mode comparisons.",
+  "queries": [
+    {
+      "id": "rag_non_parametric_memory",
+      "query": "What non-parametric memory does RAG use alongside a pre-trained seq2seq transformer?",
+      "relevant_chunk_ids": [
+        "ragInNLP_1_1"
+      ],
+      "relevant_doc_ids": [
+        "ragInNLP"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "ragInNLP",
+          "page_number": 1
+        }
+      ],
+      "answer_patterns": [
+        [
+          "dense vector index",
+          "wikipedia"
+        ]
+      ],
+      "notes": "Page 1 introduces RAG as a pre-trained seq2seq transformer plus a dense vector index of Wikipedia."
+    },
+    {
+      "id": "rag_variants",
+      "query": "What two variants of RAG are proposed in the paper?",
+      "relevant_chunk_ids": [
+        "ragInNLP_2_0"
+      ],
+      "relevant_doc_ids": [
+        "ragInNLP"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "ragInNLP",
+          "page_number": 2
+        }
+      ],
+      "answer_patterns": [
+        [
+          "rag sequence",
+          "rag token"
+        ]
+      ],
+      "notes": "Page 2 defines RAG-Sequence and RAG-Token."
+    },
+    {
+      "id": "rag_quality_claim",
+      "query": "How do RAG models compare with parametric-only seq2seq baselines in output quality?",
+      "relevant_chunk_ids": [
+        "ragInNLP_0_1"
+      ],
+      "relevant_doc_ids": [
+        "ragInNLP"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "ragInNLP",
+          "page_number": 0
+        }
+      ],
+      "answer_patterns": [
+        [
+          "more specific",
+          "diverse",
+          "factual"
+        ]
+      ],
+      "notes": "The abstract states that RAG generates more specific, diverse, and factual language."
+    },
+    {
+      "id": "longformer_motivation",
+      "query": "Why was Longformer introduced for long-document processing?",
+      "relevant_chunk_ids": [
+        "Longformer_0_0"
+      ],
+      "relevant_doc_ids": [
+        "Longformer"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "Longformer",
+          "page_number": 0
+        }
+      ],
+      "answer_patterns": [
+        [
+          "quadratic",
+          "long sequences"
+        ],
+        [
+          "quadratic",
+          "long documents"
+        ]
+      ],
+      "notes": "The abstract explains that standard Transformers cannot process long sequences efficiently because self-attention scales quadratically."
+    },
+    {
+      "id": "longformer_attention_pattern",
+      "query": "What attention pattern does Longformer use to avoid full quadratic self-attention?",
+      "relevant_chunk_ids": [
+        "Longformer_2_0"
+      ],
+      "relevant_doc_ids": [
+        "Longformer"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "Longformer",
+          "page_number": 2
+        }
+      ],
+      "answer_patterns": [
+        [
+          [
+            "sliding window",
+            "local windowed attention",
+            "local window attention",
+            "local attention window"
+          ],
+          "global attention"
+        ],
+        [
+          [
+            "sliding window",
+            "local windowed attention",
+            "local window attention",
+            "local attention window"
+          ],
+          "dilated"
+        ]
+      ],
+      "notes": "Page 2 introduces sliding-window, dilated, and global-plus-sliding-window attention patterns."
+    },
+    {
+      "id": "longformer_global_attention",
+      "query": "How is global attention used in Longformer for classification and question answering?",
+      "relevant_chunk_ids": [
+        "Longformer_3_1"
+      ],
+      "relevant_doc_ids": [
+        "Longformer"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "Longformer",
+          "page_number": 3
+        }
+      ],
+      "answer_patterns": [
+        [
+          "cls",
+          "question tokens"
+        ]
+      ],
+      "notes": "Page 3 says classification uses global attention on the [CLS] token and QA uses it on all question tokens."
+    },
+    {
+      "id": "transformer_scaled_dot_product_attention",
+      "query": "What is scaled dot-product attention in the Transformer paper?",
+      "relevant_chunk_ids": [
+        "AttentionIAYN_3_0"
+      ],
+      "relevant_doc_ids": [
+        "AttentionIAYN"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "AttentionIAYN",
+          "page_number": 3
+        }
+      ],
+      "answer_patterns": [
+        [
+          "dot product",
+          "sqrt"
+        ],
+        [
+          "query",
+          "key",
+          "sqrt"
+        ]
+      ],
+      "notes": "Page 3 begins the scaled dot-product attention section."
+    },
+    {
+      "id": "transformer_multi_head_attention",
+      "query": "How does the Transformer paper describe multi-head attention?",
+      "relevant_chunk_ids": [
+        "AttentionIAYN_3_0"
+      ],
+      "relevant_doc_ids": [
+        "AttentionIAYN"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "AttentionIAYN",
+          "page_number": 3
+        }
+      ],
+      "answer_patterns": [
+        [
+          "parallel",
+          "projected queries",
+          "keys",
+          "values"
+        ],
+        [
+          "parallel",
+          "linear projections"
+        ]
+      ],
+      "notes": "Page 3 explains that multi-head attention runs several attention layers in parallel over projected queries, keys, and values."
+    },
+    {
+      "id": "transformer_encoder_decoder_architecture",
+      "query": "What architecture does the Transformer use for its encoder and decoder stacks?",
+      "relevant_chunk_ids": [
+        "AttentionIAYN_2_0"
+      ],
+      "relevant_doc_ids": [
+        "AttentionIAYN"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "AttentionIAYN",
+          "page_number": 2
+        }
+      ],
+      "answer_patterns": [
+        [
+          "stacked self attention",
+          "point wise fully connected"
+        ],
+        [
+          "self attention",
+          "fully connected layers"
+        ]
+      ],
+      "notes": "Page 2 states that the Transformer uses stacked self-attention and point-wise fully connected layers for both encoder and decoder."
+    },
+    {
+      "id": "transformer_sinusoidal_position_encoding",
+      "query": "Why did the Transformer paper choose sinusoidal positional encodings?",
+      "relevant_chunk_ids": [
+        "AttentionIAYN_5_1"
+      ],
+      "relevant_doc_ids": [
+        "AttentionIAYN"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "AttentionIAYN",
+          "page_number": 5
+        }
+      ],
+      "answer_patterns": [
+        [
+          "extrapolate",
+          "longer sequence lengths"
+        ]
+      ],
+      "notes": "Page 5 says the sinusoidal version was chosen because it may allow extrapolation to longer sequence lengths than seen during training."
+    },
+    {
+      "id": "transformer_bleu_training_cost",
+      "query": "What does the Transformer paper claim about BLEU and training cost on WMT 2014 translation tasks?",
+      "relevant_chunk_ids": [
+        "AttentionIAYN_7_0",
+        "AttentionIAYN_7_1"
+      ],
+      "relevant_doc_ids": [
+        "AttentionIAYN"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "AttentionIAYN",
+          "page_number": 7
+        }
+      ],
+      "answer_patterns": [
+        [
+          "better bleu",
+          "fraction of the training cost"
+        ],
+        [
+          "better bleu",
+          "lower training cost"
+        ]
+      ],
+      "notes": "Page 7 says the Transformer achieves better BLEU than previous state-of-the-art models at a fraction of the training cost."
+    },
+    {
+      "id": "lora_matches_full_ft",
+      "query": "Under what conditions does the article say LoRA can match full fine-tuning performance?",
+      "relevant_chunk_ids": [
+        "LoRA Without Regret - Thinking Machines Lab_0_2"
+      ],
+      "relevant_doc_ids": [
+        "LoRA Without Regret - Thinking Machines Lab"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "LoRA Without Regret - Thinking Machines Lab",
+          "page_number": 0
+        }
+      ],
+      "answer_patterns": [
+        [
+          "same sample efficiency",
+          "same ultimate performance"
+        ],
+        [
+          "low regret regime",
+          "fullft"
+        ]
+      ],
+      "notes": "The article states that with a few key details right, LoRA can match FullFT sample efficiency and final performance, defining a low-regret regime."
+    },
+    {
+      "id": "lora_inference_advantage",
+      "query": "What inference-time advantage of LoRA is highlighted in the article?",
+      "relevant_chunk_ids": [
+        "LoRA Without Regret - Thinking Machines Lab_0_1"
+      ],
+      "relevant_doc_ids": [
+        "LoRA Without Regret - Thinking Machines Lab"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "LoRA Without Regret - Thinking Machines Lab",
+          "page_number": 0
+        }
+      ],
+      "answer_patterns": [
+        [
+          "multiple lora variants",
+          "memory",
+          "batched"
+        ],
+        [
+          "vllm",
+          "punica"
+        ]
+      ],
+      "notes": "The article highlights that multiple LoRA variants can be kept in memory and served by inference engines such as vLLM, Punica, and SGLang."
+    },
+    {
+      "id": "lora_batch_size_effect",
+      "query": "How does large batch size affect LoRA compared with full fine-tuning?",
+      "relevant_chunk_ids": [
+        "LoRA Without Regret - Thinking Machines Lab_0_3"
+      ],
+      "relevant_doc_ids": [
+        "LoRA Without Regret - Thinking Machines Lab"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "LoRA Without Regret - Thinking Machines Lab",
+          "page_number": 0
+        }
+      ],
+      "answer_patterns": [
+        [
+          "less tolerant",
+          "large batch sizes"
+        ],
+        [
+          "performance gap grows",
+          "larger batch sizes"
+        ]
+      ],
+      "notes": "The article says LoRA is less tolerant of large batch sizes than FullFT, and the performance gap grows with larger batch sizes."
+    },
+    {
+      "id": "lora_learning_rate_rank_change",
+      "query": "How much does the optimal LoRA learning rate change between rank 4 and rank 512?",
+      "relevant_chunk_ids": [
+        "LoRA Without Regret - Thinking Machines Lab_0_6"
+      ],
+      "relevant_doc_ids": [
+        "LoRA Without Regret - Thinking Machines Lab"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "LoRA Without Regret - Thinking Machines Lab",
+          "page_number": 0
+        }
+      ],
+      "answer_patterns": [
+        [
+          "less than 2"
+        ],
+        [
+          "factor of less than 2"
+        ]
+      ],
+      "notes": "Page 0 states that the optimal learning rate changes by less than a factor of 2 between rank 4 and rank 512."
+    },
+    {
+      "id": "lora_rl_rank_one",
+      "query": "How low can the LoRA rank be in the reinforcement learning experiments while still matching FullFT?",
+      "relevant_chunk_ids": [
+        "LoRA Without Regret - Thinking Machines Lab_0_6"
+      ],
+      "relevant_doc_ids": [
+        "LoRA Without Regret - Thinking Machines Lab"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "LoRA Without Regret - Thinking Machines Lab",
+          "page_number": 0
+        }
+      ],
+      "answer_patterns": [
+        [
+          "rank 1"
+        ],
+        [
+          "as low as 1"
+        ]
+      ],
+      "notes": "The reinforcement learning section states that LoRA matches FullFT even with ranks as low as 1."
+    },
+    {
+      "id": "gpt5_autolab_cost_titer",
+      "query": "What cost and titer improvements did the GPT-5-driven autonomous lab achieve for CFPS?",
+      "relevant_chunk_ids": [
+        "GPT5_autonomousLab_0_1"
+      ],
+      "relevant_doc_ids": [
+        "GPT5_autonomousLab"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "GPT5_autonomousLab",
+          "page_number": 0
+        }
+      ],
+      "answer_patterns": [
+        [
+          "40 reduction",
+          "27 increase"
+        ],
+        [
+          "40 percent reduction",
+          "27 percent increase"
+        ]
+      ],
+      "notes": "The abstract reports a 40% reduction in specific cost and a 27% increase in protein production titer."
+    },
+    {
+      "id": "gpt5_autolab_reagent_cost",
+      "query": "How much did reagent costs drop relative to the state of the art in the GPT-5 autonomous lab paper?",
+      "relevant_chunk_ids": [
+        "GPT5_autonomousLab_7_0"
+      ],
+      "relevant_doc_ids": [
+        "GPT5_autonomousLab"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "GPT5_autonomousLab",
+          "page_number": 7
+        }
+      ],
+      "answer_patterns": [
+        [
+          "60",
+          "26",
+          "57"
+        ],
+        [
+          "57 reduction",
+          "26 g"
+        ]
+      ],
+      "notes": "Page 7 states that reagent costs fell from $60/g to $26/g, a 57% reduction over SOTA."
+    },
+    {
+      "id": "gpt5_autolab_transfer_result",
+      "query": "How many proteins in the transfer experiment were produced at sufficiently high titer?",
+      "relevant_chunk_ids": [
+        "GPT5_autonomousLab_12_0"
+      ],
+      "relevant_doc_ids": [
+        "GPT5_autonomousLab"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "GPT5_autonomousLab",
+          "page_number": 12
+        }
+      ],
+      "answer_patterns": [
+        [
+          "six of twelve"
+        ],
+        [
+          "6 of 12"
+        ]
+      ],
+      "notes": "Page 12 reports that six of twelve proteins were produced at sufficiently high titer."
+    },
+    {
+      "id": "gpt5_autolab_platform",
+      "query": "What experimental platform was combined with GPT-5 in the autonomous lab paper?",
+      "relevant_chunk_ids": [
+        "GPT5_autonomousLab_2_0"
+      ],
+      "relevant_doc_ids": [
+        "GPT5_autonomousLab"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "GPT5_autonomousLab",
+          "page_number": 2
+        }
+      ],
+      "answer_patterns": [
+        [
+          "ginkgo bioworks",
+          "rac"
+        ],
+        [
+          "reconfigurable automation cart",
+          "cloud laboratory"
+        ]
+      ],
+      "notes": "Page 2 describes GPT-5 being combined with Ginkgo Bioworks' RAC-based cloud laboratory."
+    },
+    {
+      "id": "gpt5_autolab_pydantic_schema",
+      "query": "What role did the Pydantic schema play in the GPT-5 autonomous lab workflow?",
+      "relevant_chunk_ids": [
+        "GPT5_autonomousLab_3_0",
+        "GPT5_autonomousLab_8_0"
+      ],
+      "relevant_doc_ids": [
+        "GPT5_autonomousLab"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "GPT5_autonomousLab",
+          "page_number": 3
+        },
+        {
+          "doc_id": "GPT5_autonomousLab",
+          "page_number": 8
+        }
+      ],
+      "answer_patterns": [
+        [
+          "pydantic schema",
+          "validate",
+          "json"
+        ],
+        [
+          "structured json",
+          "physically executable"
+        ]
+      ],
+      "notes": "The paper says GPT-5 used a Pydantic schema to validate experiment designs and to produce a structured JSON representation of a CFPS experiment."
+    },
+    {
+      "id": "gpt5_autolab_cost_components",
+      "query": "Which CFPS components account for more than 90% of total reaction cost in the autonomous lab paper?",
+      "relevant_chunk_ids": [
+        "GPT5_autonomousLab_6_1"
+      ],
+      "relevant_doc_ids": [
+        "GPT5_autonomousLab"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "GPT5_autonomousLab",
+          "page_number": 6
+        }
+      ],
+      "answer_patterns": [
+        [
+          "cell lysate",
+          "dna template"
+        ]
+      ],
+      "notes": "Page 6 says cell lysate and DNA template account for more than 90% of total CFPS reaction cost in SOTA."
+    },
+    {
+      "id": "gpt5_autolab_iteration_count",
+      "query": "Over how many iterative steps did the GPT-5 autonomous lab improve cost and titer?",
+      "relevant_chunk_ids": [
+        "GPT5_autonomousLab_5_0"
+      ],
+      "relevant_doc_ids": [
+        "GPT5_autonomousLab"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "GPT5_autonomousLab",
+          "page_number": 5
+        }
+      ],
+      "answer_patterns": [
+        [
+          "six iterative steps"
+        ],
+        [
+          "steps 0 5"
+        ]
+      ],
+      "notes": "Figure 2 states that the system improved cost and titer over six iterative steps, labeled Steps 0-5."
+    },
+    {
+      "id": "rag_dpr_reranker_baseline",
+      "query": "What reranking baseline does the RAG paper mention when comparing against DPR?",
+      "relevant_chunk_ids": [
+        "ragInNLP_4_2"
+      ],
+      "relevant_doc_ids": [
+        "ragInNLP"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "ragInNLP",
+          "page_number": 4
+        }
+      ],
+      "answer_patterns": [
+        [
+          "cross encoder"
+        ],
+        [
+          "bert based",
+          "rerank"
+        ]
+      ],
+      "notes": "Page 4 says DPR uses a BERT-based cross-encoder to re-rank documents."
+    },
+    {
+      "id": "rag_bm25_fever",
+      "query": "On which task does the RAG paper say BM25 performs best, and why?",
+      "relevant_chunk_ids": [
+        "ragInNLP_6_2"
+      ],
+      "relevant_doc_ids": [
+        "ragInNLP"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "ragInNLP",
+          "page_number": 6
+        }
+      ],
+      "answer_patterns": [
+        [
+          "fever",
+          "entity centric",
+          "word overlap"
+        ]
+      ],
+      "notes": "Page 6 says BM25 performs best on FEVER, likely because FEVER claims are heavily entity-centric and suit word-overlap retrieval."
+    },
+    {
+      "id": "longformer_attention_complexity",
+      "query": "What is the computational complexity of Longformer's sliding-window attention?",
+      "relevant_chunk_ids": [
+        "Longformer_2_1",
+        "Longformer_3_0"
+      ],
+      "relevant_doc_ids": [
+        "Longformer"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "Longformer",
+          "page_number": 2
+        },
+        {
+          "doc_id": "Longformer",
+          "page_number": 3
+        }
+      ],
+      "answer_patterns": [
+        [
+          "o nw"
+        ],
+        [
+          "linearly",
+          "sequence length"
+        ]
+      ],
+      "notes": "Pages 2 and 3 state that the sliding-window attention complexity is O(nw) and scales linearly with sequence length."
+    },
+    {
+      "id": "longformer_window_size_effect",
+      "query": "What effect do larger attention window sizes have in Longformer experiments?",
+      "relevant_chunk_ids": [
+        "Longformer_4_1"
+      ],
+      "relevant_doc_ids": [
+        "Longformer"
+      ],
+      "relevant_pages": [
+        {
+          "doc_id": "Longformer",
+          "page_number": 4
+        }
+      ],
+      "answer_patterns": [
+        [
+          "richer representation power",
+          "improve performance"
+        ],
+        [
+          "larger window sizes",
+          "performance improvements"
+        ]
+      ],
+      "notes": "Page 4 says larger window sizes have richer representational power and often improve performance."
+    }
+  ]
+}
