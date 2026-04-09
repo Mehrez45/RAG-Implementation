@@ -18,6 +18,8 @@ class RunResult:
     revision_count: int = 0
     review_feedback: str = ""
     failure_reason: str = ""
+    route: str = ""
+    route_reason: str = ""
 
 
 class QueryRunner(ABC):
@@ -41,7 +43,12 @@ class VanillaRunner(QueryRunner):
 
     def run(self, query: str) -> RunResult:
         answer = self.pipeline.run(query)
-        return RunResult(mode=self.mode, answer=answer)
+        return RunResult(
+            mode=self.mode,
+            answer=answer,
+            route="retrieve",
+            route_reason="vanilla_pipeline",
+        )
 
 
 class AgenticRunner(QueryRunner):
@@ -65,6 +72,9 @@ class AgenticRunner(QueryRunner):
             "is_relevant": False,
             "revision_count": 0,
             "failure_reason": "",
+            "needs_retrieval": True,
+            "route": "",
+            "route_reason": "",
         }
 
         final_state = self.graph.invoke(initial_state)
@@ -79,6 +89,8 @@ class AgenticRunner(QueryRunner):
             revision_count=final_state.get("revision_count", 0),
             review_feedback=final_state.get("review_feedback", ""),
             failure_reason=final_state.get("failure_reason", ""),
+            route=final_state.get("route", "retrieve"),
+            route_reason=final_state.get("route_reason", ""),
         )
 
 

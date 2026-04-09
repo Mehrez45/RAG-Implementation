@@ -1,4 +1,4 @@
-from typing import TypedDict, List
+from typing import List, TypedDict
 
 class AgentState(TypedDict):
     user_query: str
@@ -8,3 +8,6 @@ class AgentState(TypedDict):
     is_relevant: bool
     revision_count: int
     failure_reason: str
+    needs_retrieval: bool
+    route: str
+    route_reason: str
