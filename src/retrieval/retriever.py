@@ -1,6 +1,7 @@
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np, faiss
-from utilities.utils import l2_normalisation
+
+from src.utilities.utils import l2_normalisation
 
 
 class FaissRetriever:

@@ -3,4 +3,4 @@ __pycache__/
 data/faiss/
 llama.cpp/
 .DS_Store
-.vscode/
+.vscode/.DS_Store

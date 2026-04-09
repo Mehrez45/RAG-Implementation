@@ -1,9 +1,10 @@
 import faiss, pickle, numpy as np
 from typing import List
-from ingestion.chunking import Chunk
 from pathlib import Path
-from retrieval.embeddings import EmbeddedChunk
-from utilities.utils import l2_normalisation
+
+from src.ingestion.chunking import Chunk
+from src.retrieval.embeddings import EmbeddedChunk
+from src.utilities.utils import l2_normalisation
 
 path = (Path(__file__).resolve().parents[2]
         / "data/faiss/index")
